@@ -13,7 +13,8 @@ info - status of the operation and miscellanious information
 
 response - The message contents(if no errors)*
 
-##REQUIREMNTS
+###Requirements
+
 [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)
 [docker-compose](https://docs.docker.com/compose/install/)
 
