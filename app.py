@@ -19,13 +19,11 @@ def get_requesttype(headers):
 # defines an object for the application
 app = Flask(__name__)
 
-# os.environ['AWS_SECRET_ACCESS_KEY'] = "ADSDFSGFVHSGFVSDCSGCHSSCHG"
-# os.environ['AWS_ACCESS_KEY_ID'] = 'ADSHGDDHGSCDSHGDCH'
 
 
 db = boto3.resource('dynamodb', endpoint_url='http://dynamohost:8000', region_name="us-west-2")
 
-
+# Create the table in dynamodb
 def create_dynamodb():
     table = db.create_table(
         TableName='chatbox',
@@ -60,7 +58,7 @@ def create_dynamodb():
 
 client = boto3.client('dynamodb', endpoint_url='http://dynamohost:8000', region_name='us-west-2')
 
-
+# check dynamodb table exist or not 
 def check_dynamo():
     try:
         response = client.describe_table(TableName='chatbox')
@@ -75,7 +73,7 @@ def check_dynamo():
 
 check_dynamo()
 
-
+# Status format
 def generate_response(status, action, info=None, error=None, response=None):
     responsedata = {
       'status': status,
@@ -100,7 +98,7 @@ def add_message():
     else:
         return generate_response(451, "Add Message", info="Failed", error="Invalid request: Only x-www-form-urlencoded or json")
 
-    if requestdata['message'] is None or requestdata['message'] not in ["", " "] or requestdata['sender'] not in ["", " "] or requestdata['conversation_id'] not in ["", " "]:
+    if requestdata['message'] is None or requestdata['message'] in ["", " "] or requestdata['sender'] in ["", " "] or requestdata['conversation_id'] in ["", " "]:
         logging.debug("Missing fields in post requests")
         return generate_response(200, "Add Message", info="Failed", error="No or Blank field  data")
 
@@ -113,8 +111,7 @@ def add_message():
     table_name.put_item(Item=message_data)
     return generate_response(200, "Add Message", info="Success", response=message_data)
 
-# Allows the user to retrieve specific message from the store using the HTTP GET method and
-
+# Allows the user to retrieve specific conversation from the store using the HTTP GET method
 
 @app.route('/conversations/<conversation_id>', methods=['GET'])
 def list_specificmessage(conversation_id):
