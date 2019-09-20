@@ -13,9 +13,10 @@ info - status of the operation and miscellanious information
 
 response - The message contents(if no errors)*
 
-###Requirements
+### Requirements
 
 [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)
+
 [docker-compose](https://docs.docker.com/compose/install/)
 
 #### 1. Allows user to post new message
