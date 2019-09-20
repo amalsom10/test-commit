@@ -1,0 +1,17 @@
+version: '3'
+services:
+  dynamodb:
+    image: "amazon/dynamodb-local"
+    ports:
+      - "8000:8000"
+    container_name: dynamodb
+  web:
+    build: .
+    ports:
+      - "5000:80"
+    links:
+      - "dynamodb:dynamohost"
+    container_name: messager
+    environment:
+      - AWS_SECRET_ACCESS_KEY=ADSDFSGFVHSGFVSDCSGCHSSCHG
+      - AWS_ACCESS_KEY_ID=ADSHGDDHGSCDSHGDCH
